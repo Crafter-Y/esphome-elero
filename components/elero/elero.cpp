@@ -81,6 +81,28 @@ void Elero::reset() {
 void Elero::init() {
   uint8_t patable_data[] = {0xc0, 0xc0, 0xc0, 0xc0, 0xc0, 0xc0, 0xc0, 0xc0};
 
+  // from https://github.com/esphome/esphome/pull/6300
+  // Read part number and version
+
+  // this->read_(Register::PARTNUM);
+  // this->read_(Register::VERSION);
+
+  // if (this->state_.VERSION == 0) {
+  //   mark_failed();
+  //   ESP_LOGE(TAG, "Failed to reset CC1101 modem. Check connection.");
+  //   return;
+  // }
+
+  // char buff[32] = {0};
+  // snprintf(buff, sizeof(buff), "%02X%02X", this->state_.PARTNUM, this->state_.VERSION);
+  // this->chip_id_ = buff;
+
+  // ESP_LOGD(TAG, "%s was found", this->chip_id_.c_str());
+
+  uint8_t version = this->read_reg(CC1101_VERSION);
+  uint8_t partnum = this->read_reg(CC1101_PARTNUM);
+  ESP_LOGD(TAG, "CC1101 version: %02x, partnum: %02x", version, partnum);
+
   this->write_reg(CC1101_FSCTRL1, 0x08);
   this->write_reg(CC1101_FSCTRL0, 0x00);
   this->write_reg(CC1101_FREQ2, this->freq2_);
