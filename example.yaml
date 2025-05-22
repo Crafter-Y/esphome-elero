@@ -1,14 +1,24 @@
 external_components:
-  - source: github://andyboeh/esphome-elero
+  - source:
+      type: local
+      path: components
+
+esphome:
+  name: test-cover-device
+
+esp32:
+  board: esp32-c3-devkitm-1
+  framework:
+    type: arduino
 
 spi:
-  clk_pin: GPIO18
-  mosi_pin: GPIO23
-  miso_pin: GPIO19
+  clk_pin: GPIO4
+  miso_pin: GPIO5
+  mosi_pin: GPIO6
 
 elero:
-  cs_pin: GPIO5
-  gdo0_pin: GPIO26
+  cs_pin: GPIO7
+  gdo0_pin: GPIO3
   freq0: 0xc0
   freq1: 0x71
   freq2: 0x21

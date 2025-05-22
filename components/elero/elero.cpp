@@ -267,9 +267,12 @@ bool Elero::transmit() {
 uint8_t Elero::read_reg(uint8_t addr) {
   uint8_t data;
 
+  ESP_LOGD(TAG, "before read_reg");
   this->enable();
   this->write_byte(addr);
+  ESP_LOGD(TAG, "after write_byte");
   data = this->read_byte();
+  ESP_LOGD(TAG, "after read_byte");
   return data;
 }
 
