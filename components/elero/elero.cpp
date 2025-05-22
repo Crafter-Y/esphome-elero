@@ -103,14 +103,18 @@ void Elero::init() {
   uint8_t partnum = 0x00;
 
   version = this->read_reg(CC1101_VERSION);
-  partnum = this->read_reg(CC1101_PARTNUM);
+  //partnum = this->read_reg(CC1101_PARTNUM);
 
-  if (version == 0x00 || version == 0xFF || partnum == 0x00 || partnum == 0xFF) {
-    ESP_LOGE(TAG, "SPI read failed or CC1101 not responding. version=%02X, partnum=%02X", version, partnum);
-    return;
+  // if (version == 0x00 || version == 0xFF || partnum == 0x00 || partnum == 0xFF) {
+  //   ESP_LOGE(TAG, "SPI read failed or CC1101 not responding. version=%02X, partnum=%02X", version, partnum);
+  //   return;
+  // }
+  if (version == 0x00 || version == 0xFF) {
+     ESP_LOGE(TAG, "SPI read failed or CC1101 not responding. version=%02X", version);
+     return;
   }
 
-  ESP_LOGD(TAG, "CC1101 version: %02X, partnum: %02X", version, partnum);
+  ESP_LOGD(TAG, "CC1101 version: %02X", version);
 
   this->write_reg(CC1101_FSCTRL1, 0x08);
   this->write_reg(CC1101_FSCTRL0, 0x00);
