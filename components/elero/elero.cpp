@@ -99,9 +99,18 @@ void Elero::init() {
 
   // ESP_LOGD(TAG, "%s was found", this->chip_id_.c_str());
 
-  uint8_t version = this->read_reg(CC1101_VERSION);
-  uint8_t partnum = this->read_reg(CC1101_PARTNUM);
-  ESP_LOGD(TAG, "CC1101 version: %02x, partnum: %02x", version, partnum);
+ uint8_t version = 0x00;
+  uint8_t partnum = 0x00;
+
+  version = this->read_reg(CC1101_VERSION);
+  partnum = this->read_reg(CC1101_PARTNUM);
+
+  if (version == 0x00 || version == 0xFF || partnum == 0x00 || partnum == 0xFF) {
+    ESP_LOGE(TAG, "SPI read failed or CC1101 not responding. version=%02X, partnum=%02X", version, partnum);
+    return;
+  }
+
+  ESP_LOGD(TAG, "CC1101 version: %02X, partnum: %02X", version, partnum);
 
   this->write_reg(CC1101_FSCTRL1, 0x08);
   this->write_reg(CC1101_FSCTRL0, 0x00);
